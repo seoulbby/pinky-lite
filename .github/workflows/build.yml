@@ -1,0 +1,31 @@
+name: Build Pinky Lite
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-windows:
+    runs-on: windows-latest
+    steps:
+      - name: Get code
+        uses: actions/checkout@v4
+
+      - name: Configure
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build
+        run: cmake --build build --config Release
+
+      - name: Save VST3
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pinky-Lite-VST3
+          path: build/PinkyLite_artefacts/Release/VST3
+
+      - name: Save Standalone
+        uses: actions/upload-artifact@v4
+        with:
+          name: Pinky-Lite-Standalone
+          path: build/PinkyLite_artefacts/Release/Standalone
+          
